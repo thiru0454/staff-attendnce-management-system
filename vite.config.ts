@@ -6,10 +6,13 @@
 // You can pass additional config via defineConfig({ vite: { ... } }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
-// Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
-// @cloudflare/vite-plugin builds from this — wrangler.jsonc main alone is insufficient.
+// For Netlify static hosting, build as client-only (disable SSR)
 export default defineConfig({
   tanstackStart: {
+    ssr: false,
     server: { entry: "server" },
+  },
+  build: {
+    outDir: "dist",
   },
 });
