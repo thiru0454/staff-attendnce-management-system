@@ -1,30 +1,30 @@
-# Netlify Configuration for TanStack Router SPA
+# Netlify Configuration for TanStack Start
 
 [build]
   command = "bun run build"
   publish = "dist"
+  functions = "netlify/functions"
 
 [dev]
   command = "bun run dev"
   port = 5173
 
-# Configure rewrite rules for SPA routing
+# SPA Routing - Redirect all requests to index.html for client-side routing
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-  force = false
 
-# Cache headers
-[[headers]]
-  for = "/index.html"
-  [headers.values]
-    Cache-Control = "no-cache, no-store, must-revalidate"
-
+# Asset caching
 [[headers]]
   for = "/assets/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "no-cache"
 
 # Security headers
 [[headers]]
@@ -32,5 +32,5 @@
   [headers.values]
     X-Content-Type-Options = "nosniff"
     X-Frame-Options = "SAMEORIGIN"
-    X-XSS-Protection = "1; mode=block"
     Referrer-Policy = "strict-origin-when-cross-origin"
+
